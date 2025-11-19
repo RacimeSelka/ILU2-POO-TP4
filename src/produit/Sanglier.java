@@ -15,7 +15,7 @@ public class Sanglier extends Produit {
 	public String decrireProduit() {
 		return "Sanglié de "+poids+this.getUnite().getNom()+" chassé par "+chasseur.getNom();
 	}
-	public  int calculerPrix(int prix) {
-		return prix;
+	public int calculerPrix(int prix) {
+		return poids*prix/1000;
 	}
 }
