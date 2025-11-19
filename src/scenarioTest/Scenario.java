@@ -1,16 +1,48 @@
 package scenarioTest;
 
 import personnages.Gaulois;
-import produits.Poisson;
-import produits.Sanglier;
+import produit.Produit;
+import produit.Poisson;
+import produit.Sanglier;
 import villagegaulois.Etal;
+import villagegaulois.IEtal;
+import villagegaulois.IVillage;
 
 public class Scenario {
 
 	public static void main(String[] args) {
 
-		// TODO Partie 4 : creer de la classe anonyme Village
-
+		
+		IVillage village=new IVillage() {
+			IEtal[] marche=new IEtal[3];
+			
+			public <P extends Produit>boolean installerVendeur(Etal<P> etal, Gaulois vendeur, P[] produit, int prix) {
+				for (int i = 0; i < marche.length; i++) {
+					if (marche[i]==null) {
+						marche[i]=etal;
+						etal.installerVendeur(vendeur, produit, prix);
+						return true;
+						
+					} 
+				}
+				return false;
+			}
+			
+			public void acheterProduit(String produit, int quantiteSouhaitee) {
+				
+				ScenarioTest.acheterProduit(marche,produit,quantiteSouhaitee);
+				
+			}
+			public String toString() {
+				StringBuilder chaine=new StringBuilder();
+				for (int i = 0; i < marche.length; i++) {
+					chaine.append(marche[i].etatEtal());				
+				}
+				return chaine.toString();
+			}
+			
+		};
+		
 		// fin
 
 		Gaulois ordralfabetix = new Gaulois("Ordralfabétix", 9);
@@ -41,6 +73,7 @@ public class Scenario {
 		village.acheterProduit("sanglier", 3);
 
 		System.out.println(village);
+		
 	}
 
 }
